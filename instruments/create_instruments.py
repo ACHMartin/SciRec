@@ -3,6 +3,14 @@ import numpy as np
 from scipy import interpolate
 
 ### INPUTS
+across_length = 100
+Kp_sqt = 0.03 # 3% (Mater v2-v4 3%)
+RSV_sqt = 0.07 # 6cm/s (Mater v2-v4 5cm/s) !!!
+
+Kp_midV = 0.04 # 4% (Mater v2-v4: 4%) !!!
+Kp_midH = 0.05 # 4%
+RSV_midV = np.nan # cm/s (Mater v3: 40cm/s; v4 None) 0.40 !!!
+RSV_midH = 0.40 # cm/s (Mater v3: 40cm/s; v4 None)
 
 ## Frequency
 central_frequency = 13.5 * 10**9 #Hz
@@ -14,25 +22,16 @@ central_frequency = 13.5 * 10**9 #Hz
 # 3sq29: reduce squint compare to baseline but keeping same incidence angle for broadside
 inst_str = '3base'
 
-Kp_sqt = 0.03 # 3% (Mater v2-v4 3%)
-RSV_sqt = 0.07 # 7cm/s (Mater v4 5cm/s but push to 7cm/s after D8 in April 2023)
-
-Kp_midV = 0.04 # 4% (Mater v2-v4: 4%)
-#Kp_midH = 0.04 # 4%
-RSV_midV = np.nan  # cm/s (Mater v3: 40cm/s; v4 None)
-#RSV_midH = 0.20 # cm/s (Mater v3: 40cm/s; v4 None)
-
-
 if inst_str == '2sq22':
     ## Geometry
     # boundary values
-    inc_angle_broadside_propa = [20.0, 28.4, 33.4] # WARNING not consistent with the squint. 
+    inc_angle_broadside_propa = [20.0, 28.4, 33.4] # WARNING not consistent with the squint.
     inc_angle_sqt_propa = [31.5, 36.5, 40.0]
     sqt_ground_propa = [22.5, 18.0, 15.0] # defined from sat direction for Fore beam;
     across_distance_propa = [0, 90, 150]
 
     # Define interpolation range for broadside
-    inc_angle_broadside = np.arange(15, 35+1, 2)
+    inc_angle_broadside = np.linspace(15, 35 + 1, across_length)
 
 if inst_str[1:] == 'sq29':
     ## Geometry
@@ -43,7 +42,7 @@ if inst_str[1:] == 'sq29':
     across_distance_propa = [0, 90, 150]
 
     # Define interpolation range for broadside
-    inc_angle_broadside = np.arange(19, 40+1, 2)
+    inc_angle_broadside = np.linspace(19, 40 + 1, across_length)
 
 if inst_str[1:] == 'base':
     ## Geometry
@@ -54,7 +53,8 @@ if inst_str[1:] == 'base':
     across_distance_propa = [0, 90, 150]
 
     # Define interpolation range for broadside
-    inc_angle_broadside = np.arange(15, 35+1, 2)
+    # inc_angle_broadside = np.arange(15, 35+1, 2) #2
+    inc_angle_broadside = np.linspace(20, 35 + 1, across_length)
 
 ## Interpolation
 # create interpolation function based on broadside inci angle
@@ -227,6 +227,7 @@ inst_file_str = 'inst_{inst_str}_{inst_str:.1}AC'.format(inst_str=inst_str) \
             across_nb_points=len(inc_angle_broadside),
             noise_str=noise_str
         )
+
     #+ '_{across_nb_points:03d}x_SNKp{Kp:02.0f}RSV{RSV:02.0f}.nc'.format(across_nb_points=len(inc_angle_broadside),
                                                                 #Kp=Kp_sqt*100,
                                                                 #RSV=RSV_sqt*100)
