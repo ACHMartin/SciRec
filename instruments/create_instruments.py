@@ -3,14 +3,17 @@ import numpy as np
 from scipy import interpolate
 
 ### INPUTS
-across_length = 100
+across_length = 11
+
 Kp_sqt = 0.03 # 3% (Mater v2-v4 3%)
 RSV_sqt = 0.07 # 6cm/s (Mater v2-v4 5cm/s) !!!
-
 Kp_midV = 0.04 # 4% (Mater v2-v4: 4%) !!!
 Kp_midH = 0.05 # 4%
 RSV_midV = np.nan # cm/s (Mater v3: 40cm/s; v4 None) 0.40 !!!
 RSV_midH = 0.40 # cm/s (Mater v3: 40cm/s; v4 None)
+
+# Define interpolation range for broadside incidence
+inc_angle_broadside = np.linspace(20, 35 + 1, across_length)
 
 ## Frequency
 central_frequency = 13.5 * 10**9 #Hz
@@ -30,9 +33,6 @@ if inst_str == '2sq22':
     sqt_ground_propa = [22.5, 18.0, 15.0] # defined from sat direction for Fore beam;
     across_distance_propa = [0, 90, 150]
 
-    # Define interpolation range for broadside
-    inc_angle_broadside = np.linspace(15, 35 + 1, across_length)
-
 if inst_str[1:] == 'sq29':
     ## Geometry
     # boundary values
@@ -41,9 +41,6 @@ if inst_str[1:] == 'sq29':
     sqt_ground_propa = [29.0, 25.4, 22.5] # defined from sat direction for Fore beam;
     across_distance_propa = [0, 90, 150]
 
-    # Define interpolation range for broadside
-    inc_angle_broadside = np.linspace(19, 40 + 1, across_length)
-
 if inst_str[1:] == 'base':
     ## Geometry
     # boundary values
@@ -51,10 +48,6 @@ if inst_str[1:] == 'base':
     inc_angle_sqt_propa = [31.5, 36.5, 40.0]
     sqt_ground_propa = [52.2, 45.0, 37.8] # defined from sat direction for Fore beam;
     across_distance_propa = [0, 90, 150]
-
-    # Define interpolation range for broadside
-    # inc_angle_broadside = np.arange(15, 35+1, 2) #2
-    inc_angle_broadside = np.linspace(20, 35 + 1, across_length)
 
 ## Interpolation
 # create interpolation function based on broadside inci angle
@@ -72,6 +65,8 @@ inc_angle_mid = inc_angle_broadside
 inc_angle_sqt = f_inc_sqt(inc_angle_broadside)
 squint_ground = f_squint_ground(inc_angle_broadside)
 across = f_across(inc_angle_broadside)
+squint_ground_heading = f_squint_ground(inc_angle_broadside)
+# squint_ground_heading = f_squint_ground(across_distance_propa)
 
 # Build inst dataset
 inst = xr.Dataset(
@@ -96,8 +91,8 @@ if inst_str[0:3] == '2sq': # 2 antennas only squint
     inst['AntennaAzimuthImage']=(
             ['across','Antenna'],
             np.stack((
-                90-squint_ground,
-                90+squint_ground,
+                np.mod(90-squint_ground_heading, 360),
+                np.mod(90+squint_ground_heading, 360),
                 ), axis=-1)
             )
     inst['Polarization']=(
@@ -128,9 +123,9 @@ if inst_str[0] == '3':
     inst['AntennaAzimuthImage']=(
             ['across','Antenna'],
             np.stack((
-                90-squint_ground,
+                np.mod(90-squint_ground_heading, 360),
                 np.full([across.size], 90),
-                90+squint_ground,
+                np.mod(90+squint_ground_heading, 360),
                 ), axis=-1)
             )
     inst['Polarization']=(
@@ -164,10 +159,10 @@ if inst_str[0] == '4':
     inst['AntennaAzimuthImage']=(
             ['across','Antenna'],
             np.stack((
-                90-squint_ground,
+                np.mod(90-squint_ground_heading, 360),
                 np.full([across.size], 90),
                 np.full([across.size], 90),
-                90+squint_ground,
+                np.mod(90+squint_ground_heading, 360),
                 ), axis=-1)
             )
     inst['Polarization']=(

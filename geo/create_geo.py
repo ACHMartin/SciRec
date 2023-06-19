@@ -1,6 +1,5 @@
 import sys
-sys.path.append("/gpfs/USERS/andrievskaia/SeaSTAR/seastar_project")
-
+sys.path.append("/gpfs/PROJETS/1407-FE_SeaStar_SciRec/REALISATION/Technique/seastar_project")
 import xarray as xr
 import numpy as np
 import seastar

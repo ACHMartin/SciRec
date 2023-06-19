@@ -1,47 +1,38 @@
 import sys
-sys.path.append("/gpfs/USERS/andrievskaia/SeaSTAR/seastar_project")
-
-
+sys.path.append("/gpfs/PROJETS/1407-FE_SeaStar_SciRec/REALISATION/Technique/seastar_project")
 import xarray as xr
 import numpy as np
 import seastar
-from seastar.utils.tools import dotdict
 import time
 
 ### INPUTS
 ## Instrument
-# inst_file = 'inst_3sq29_3AC19_39_011x_SNKp03RSV05_MVNKp04RSV40.nc'
-#inst_file = 'inst_2sq22_2AC15_35_011x_SNKp03RSV05.nc'
-# inst_file = 'inst_4base_4AC15_35_011x_SNKp03RSV05_MVNKp04RSV20_MHNKp04RSV20.nc'
-# inst_file = 'inst_4base_4AC15_29_003x_SNKp03RSV05_MVNKp04RSV20_MHNKp04RSV20.nc'
-# inst_file = 'inst_4base_4AC15_29_003x_SNKp03RSV05_MVNKp04RSV20_MHNKp04RSV20_n.nc'
-# inst_file = 'inst_3base_3AC15_35_011x_SNKp03RSV05_MVNKp05RSV40.nc'
-# inst_file = 'inst_3base_3AC15_36_100x_SNKp03RSV05_MVNKp05RSV40.nc'
-# inst_file = 'inst_3base_3AC15_36_011x_SNKp03RSV07_MVNKp04RSVnan.nc'
-inst_file = 'inst_3base_3AC15_36_100x_SNKp03RSV07_MVNKp04RSVnan.nc'
+inst_file = 'inst_3base_3AC20_36_011x_SNKp03RSV07_MVNKp04RSVnan.nc'
 inst_str = inst_file[8:13]
 inst_path = '../instruments/' + inst_file
 
-gmf={
-    'nrcs': {'name': 'nscat4ds'},
-    'doppler': {'name': 'mouche12'},
-}
-
+# Scene size
 across_size=int(inst_file[20:23])
-along_size=100
+along_size=9
 
 ## Geo
 wdir_v = np.arange(0, 360, 15)
 wspd_v = 5 * np.ones_like(wdir_v)
 cvel_v = 0.6 * np.ones_like(wdir_v)
 cdir_v = 0 * np.ones_like(wdir_v)
+wdir = 270
 
+gmf_model = 'yurovsky19' # 'yurovsky19' 'mouche12'
+gmf={
+    'nrcs': {'name': 'nscat4ds'},
+    'doppler': {'name': gmf_model},
+}
 gmf_nrcs = gmf['nrcs']['name'].upper()
 gmf_doppler = gmf['doppler']['name'].upper()
+
 ## Iteration
 ii = 0
 
-wdir = 270
 # for ii, wdir in enumerate(wdir_v):
 wspd = wspd_v[ii]
 cvel = cvel_v[ii]
