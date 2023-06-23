@@ -3,7 +3,7 @@ import numpy as np
 from scipy import interpolate
 
 ### INPUTS
-across_length = 11
+across_length = 100
 
 Kp_sqt = 0.03 # 3% (Mater v2-v4 3%)
 RSV_sqt = 0.07 # 6cm/s (Mater v2-v4 5cm/s) !!!

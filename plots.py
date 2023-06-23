@@ -9,7 +9,7 @@ import math
 import xarray as xr
 import matplotlib.pyplot as plt
 
-level2 = xr.open_dataset(r'H:\SeaSTAR\20230418_SciReC_simu\level2s\level2_3base_3AC15_36_100x100_SNKp03RSV07_MVNKp04RSVnan_W005_270_C0.6_000_N4DS_M12_sol_closest_truth_wind.nc').load()
+level2 = xr.open_dataset(r'N:\1407-FE_SeaStar_SciRec\REALISATION\Technique\SciRec\level2s\level2_model_3base_3AC20_36_011x009_SNKp03RSV07_MVNKp04RSVnan_N4DS_M12_sol_closest_truth_wind.nc').load()
 # closest_truth_current, sort_by_cost_current, closest_truth_wind
 cmap_dict = {'CurrentVelocity': 'plasma', 'CurrentDirection': 'hsv', 
              'WindSpeed': 'viridis', 'WindDirection': 'twilight', 'cost': 'viridis'}
@@ -33,6 +33,7 @@ level2.plot.quiver(
 # plt.title('Ambiguity method: closest_truth to current', fontsize = 40)
 # plt.title('Ambiguity method: sort_by_cost')
 plt.title('Ambiguity method: closest_truth to wind')
+plt.show()
 
 ###
 fig2 = plt.figure(figsize=(50,40))
@@ -51,7 +52,7 @@ level2.plot.quiver(
 # plt.title('Ambiguity method: closest_truth to current', fontsize = 40)
 # plt.title('Ambiguity method: sort_by_cost')
 plt.title('Ambiguity method: closest_truth to wind')
-
+plt.show()
 
 ###
 fig3 = plt.figure(figsize=(50,40))
@@ -59,9 +60,9 @@ im = level2.cost.plot(x='across', vmax=4)
 # cbar = fig3.colorbar(im).cmap.set_over('red')
 im.cmap.set_over('red')
 # plt.title('Ambiguity method: closest_truth to current', fontsize = 40)
-# plt.title('Ambiguity method: sort_by_costt')
+# plt.title('Ambiguity method: sort_by_cost')
 plt.title('Ambiguity method: closest_truth to wind')
-
+plt.show()
 
 
 
