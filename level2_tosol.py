@@ -4,12 +4,12 @@ import xarray as xr
 import numpy as np
 import seastar
 
-inst_file = 'inst_3base_3AC20_36_011x_SNKp03RSV07_MVNKp04RSVnan.nc'
-truth = xr.open_dataset(r'N:\1407-FE_SeaStar_SciRec\REALISATION\Technique\SciRec\truths\truth_model_3base_3AC20_36_011x009_SNKp03RSV07_MVNKp04RSVnan_N4DS_M12.nc').load()
-lmout = xr.open_dataset(r'N:\1407-FE_SeaStar_SciRec\REALISATION\Technique\SciRec\level2s\level2_model_3base_3AC20_36_011x009_SNKp03RSV07_MVNKp04RSVnan_N4DS_M12.nc').load()
+inst_file = 'inst_3base_3AC20_36_100x_SNKp03RSV07_MVNKp04RSVnan.nc'
+truth = xr.open_dataset(r'N:\1407-FE_SeaStar_SciRec\REALISATION\Technique\SciRec\truths\truth_model_3base_3AC20_36_100x100_SNKp03RSV07_MVNKp04RSVnan_N4DS_M12.nc').load()
+lmout = xr.open_dataset(r'N:\1407-FE_SeaStar_SciRec\REALISATION\Technique\SciRec\level2s\level2_model_3base_3AC20_36_100x100_SNKp03RSV07_MVNKp04RSVnan_N4DS_M12.nc').load()
 
 inst_str = inst_file[8:13]
-across_size, along_size = 11, 9
+across_size, along_size = 100, 100
 
 # flag to choose between geo from constant values or from model
 geo_flag = 'model' # 'const' 'model'
@@ -23,8 +23,8 @@ gmf_nrcs = gmf['nrcs']['name'].upper()
 gmf_doppler = gmf['doppler']['name'].upper()
 
 # ambiguity = {'name': 'closest_truth', 'truth': truth, 'method': 'current'}
-# ambiguity = {'name': 'sort_by_cost', 'truth': truth, 'method': 'current'}
-ambiguity = {'name': 'closest_truth', 'truth': truth, 'method': 'wind'}
+ambiguity = {'name': 'sort_by_cost', 'truth': truth, 'method': 'current'}
+# ambiguity = {'name': 'closest_truth', 'truth': truth, 'method': 'wind'}
 sol = seastar.retrieval.ambiguity_removal.solve_ambiguity(lmout, ambiguity)
 level2sol = seastar.retrieval.level2.sol2level2(sol)
 
