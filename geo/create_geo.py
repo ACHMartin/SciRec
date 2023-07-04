@@ -6,10 +6,16 @@ import seastar
 along = np.arange(0, 100)
 across = np.arange(0,11)
 
-wdir_v = np.arange(0, 360, 5)
-wspd_v = 5 * np.ones_like(wdir_v)
-cvel_v = 0.6 * np.ones_like(wdir_v)
-cdir_v = 150 * np.ones_like(wdir_v)
+#wdir_v = np.arange(0, 360, 5)
+#wspd_v = 5 * np.ones_like(wdir_v)
+#cvel_v = 0.6 * np.ones_like(wdir_v)
+#cdir_v = 150 * np.ones_like(wdir_v)
+
+wspd_v = np.array([2,3,4,5,6,7,8,10,12,15,18,21])
+wdir_v = 0 * np.ones_like(wspd_v)
+cvel_v = 0.6 * np.ones_like(wspd_v)
+cdir_v = 150 * np.ones_like(wspd_v)
+
 
 ### END inputs
 
