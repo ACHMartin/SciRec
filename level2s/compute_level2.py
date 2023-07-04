@@ -18,7 +18,7 @@ gmf={
 }
 
 across_size=int(inst_file[20:23])
-along_size=100
+along_size=9 #100
 
 ### END for inputs
 
@@ -60,10 +60,11 @@ for ii, wdir in enumerate(wdir_v):
     noise['Sigma0'] = level1['noise_Sigma0']
     noise['RSV'] = level1['noise_RSV']
 
-    lmout = seastar.retrieval.level2.run_find_minima(level1, noise, gmf)
-    lmout.attrs = level1.attrs
-    lmout.attrs['level1'] = level1_path
+    if __name__=='__main__':
+        lmout = seastar.retrieval.level2.run_find_minima(level1, noise, gmf, serial=False)
+        lmout.attrs = level1.attrs
+        lmout.attrs['level1'] = level1_path
 
-    level2_file_str = 'level2_' + out_str_v
-    lmout.to_netcdf(path=level2_file_str)
+        level2_file_str = 'level2_' + out_str_v
+        lmout.to_netcdf(path=level2_file_str)
 

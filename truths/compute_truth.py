@@ -17,7 +17,7 @@ gmf={
 }
 
 across_size = int(inst_file[20:23])
-along_size=100
+along_size=9 #100
 
 ### END of inputs
 
@@ -50,9 +50,9 @@ for ii, wdir in enumerate(wdir_v):
     if not inst.across.equals(geo.across):
         geo['across'] = inst.across
 
-    geo['WindSpeed'] = geo['OceanSurfaceWindSpeed'] # TODO -> to be remove but
+    # geo['WindSpeed'] = geo['OceanSurfaceWindSpeed'] # TODO -> to be remove but
     # need to adapt function below
-    geo['WindDirection'] = geo['OceanSurfaceWindDirection']
+    # geo['WindDirection'] = geo['OceanSurfaceWindDirection']
     truth = seastar.performance.scene_generation.truth_fct(geo, inst, gmf)
 
     truth.attrs['inst'] = inst_path
