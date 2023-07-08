@@ -17,7 +17,7 @@ gmf={
 }
 
 across_size = int(inst_file[20:23])
-along_size=9 #100
+along_size=100
 
 ### END of inputs
 
@@ -28,7 +28,7 @@ along_size=9 #100
 #cvel_v = 0.6 * np.ones_like(wdir_v)
 #cdir_v = 150 * np.ones_like(wdir_v)
 wspd_v = np.array([2,3,4,5,6,7,8,10,12,15,18,21])
-wdir_v = 0 * np.ones_like(wspd_v)
+wdir_v = 225 * np.ones_like(wspd_v)
 cvel_v = 0.6 * np.ones_like(wspd_v)
 cdir_v = 150 * np.ones_like(wspd_v)
 
@@ -54,21 +54,8 @@ for ii, wdir in enumerate(wdir_v):
     if not inst.across.equals(geo.across):
         geo['across'] = inst.across
 
-<<<<<<< Updated upstream
-    # geo['WindSpeed'] = geo['OceanSurfaceWindSpeed'] # TODO -> to be remove but
-||||||| merged common ancestors
-    geo['WindSpeed'] = geo['OceanSurfaceWindSpeed'] # TODO -> to be remove but
-=======
     #geo['WindSpeed'] = geo['OceanSurfaceWindSpeed'] # TODO -> to be remove but
->>>>>>> Stashed changes
-    # need to adapt function below
-<<<<<<< Updated upstream
     # geo['WindDirection'] = geo['OceanSurfaceWindDirection']
-||||||| merged common ancestors
-    geo['WindDirection'] = geo['OceanSurfaceWindDirection']
-=======
-    #geo['WindDirection'] = geo['OceanSurfaceWindDirection']
->>>>>>> Stashed changes
     truth = seastar.performance.scene_generation.truth_fct(geo, inst, gmf)
 
     truth.attrs['inst'] = inst_path

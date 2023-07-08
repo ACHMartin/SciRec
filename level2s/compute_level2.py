@@ -18,7 +18,7 @@ gmf={
 }
 
 across_size=int(inst_file[20:23])
-along_size=9 #100
+along_size=100
 
 ### END for inputs
 
@@ -30,7 +30,7 @@ along_size=9 #100
 #cdir_v = 150 * np.ones_like(wdir_v)
 
 wspd_v = np.array([2,3,4,5,6,7,8,10,12,15,18,21])
-wdir_v = 0 * np.ones_like(wspd_v)
+wdir_v = 225 * np.ones_like(wspd_v)
 cvel_v = 0.6 * np.ones_like(wspd_v)
 cdir_v = 150 * np.ones_like(wspd_v)
 
