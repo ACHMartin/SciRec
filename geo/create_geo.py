@@ -13,7 +13,7 @@ along = np.arange(0, along_length)
 # flag to choose between geo from constant values or from model
 geo_flag = 'model' # 'const' 'model'
 # path to geo if it is taken from model
-path_to_geo = 'N:/Partage_interne/Daria/CROCO1000_201009_extr.nc'
+path_to_geo = 'N:/1407-FE_SeaStar_SciRec/REALISATION/Technique/scirec_data/CROCO1000_201009_area.nc'
 
 # Geo
 if geo_flag == 'const':
@@ -52,6 +52,12 @@ else:
     # new geo from CROCO model
     geo_short = xr.open_dataset(path_to_geo)
 
+    lon = geo_short.nav_lon_u.values[0]
+    lat = []
+    for i in range(len(geo_short.nav_lat_u.values)):
+        lat.append(geo_short.nav_lat_u.values[i][0])
+    lat = np.array(lat)
+
     wspd, wdir = seastar.utils.tools.windUV2SpeedDir(geo_short.uwnd, geo_short.vwnd)
     cvel, cdir = seastar.utils.tools.currentUV2VelDir(geo_short.u, geo_short.v)
 
@@ -62,18 +68,27 @@ else:
 
     geo = xr.Dataset(
         data_vars=dict(
+            # EarthRelativeWindSpeed=(['latitude', 'longitude'], wspd.values),
+            # EarthRelativeWindDirection=(['latitude', 'longitude'], wdir),
+            # CurrentVelocity=(['latitude', 'longitude'], cvel.values),
+            # CurrentDirection=(['latitude', 'longitude'], cdir),
+            # across=(['latitude', 'longitude'], np.array(range(0,100,1))*np.ones((100, 100))),
+            # along=(['latitude', 'longitude'], (np.array(range(0,100,1))*np.ones((100, 100))).transpose()),
             EarthRelativeWindSpeed=(['across', 'along'], wspd.values),
             EarthRelativeWindDirection=(['across', 'along'], wdir),
             CurrentVelocity=(['across', 'along'], cvel.values),
             CurrentDirection=(['across', 'along'], cdir),
+            # latitude=(['across', 'along'], geo_short.nav_lat_u.values),
+            # longitude=(['across', 'along'], geo_short.nav_lon_u.values),
         ),
         coords=dict(
             across=across,
             along=along,
+            latitude=(['across', 'along'], geo_short.nav_lat_u.values),
+            longitude=(['across', 'along'], geo_short.nav_lon_u.values),
         )
     )
-    geo_file_str = r'geo_model_{nb_across:03d}x{nb_along:03d}.nc'.format(nb_across=len(across),
-                                                                         nb_along=len(along))
+    geo_file_str = r'geo_model_area_{nb_across:03d}x{nb_along:03d}.nc'.format(nb_across=len(across),nb_along=len(along))
 
 geo = seastar.utils.tools.EarthRelativeSpeedDir2all(geo)
 geo.to_netcdf(path=geo_file_str)

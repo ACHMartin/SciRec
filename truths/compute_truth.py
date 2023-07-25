@@ -55,7 +55,7 @@ if geo_flag == 'const':
               + '_{}_{}.nc'.format(gmf_nrcs[0] + gmf_nrcs[-3:],
                                    gmf_doppler[0] + gmf_doppler[-2:])
 else:
-    geo_path = '../geo/' + 'geo_model_{nb_across:03d}x{nb_along:03d}.nc'.format(
+    geo_path = '../geo/' + 'geo_model_area_{nb_across:03d}x{nb_along:03d}.nc'.format(
         nb_across=across_size, nb_along=along_size)
     out_str = inst_file[5:24] + '{nb_along:03d}_'.format(nb_along=along_size) \
               + inst_file[25:-3] + '_{}_{}.nc'.format(gmf_nrcs[0] + gmf_nrcs[-3:],
@@ -90,7 +90,7 @@ level1['noise_RSV'] = noise['RSV']
 if geo_flag == 'const':
     truth_file_str = 'truth_' + out_str
 else:
-    truth_file_str = 'truth_model_' + out_str
+    truth_file_str = 'truth_model_area_' + out_str
 truth.to_netcdf(path=truth_file_str)
 
 level1.attrs['inst'] = inst_path
@@ -100,6 +100,6 @@ level1.attrs['truth'] = '../truths/' + truth_file_str
 if geo_flag == 'const':
     level1_file_str = '../level1s/level1_' + out_str
 else:
-    level1_file_str = '../level1s/level1_model_' + out_str
+    level1_file_str = '../level1s/level1_model_area_' + out_str
 level1.to_netcdf(path=level1_file_str)
 

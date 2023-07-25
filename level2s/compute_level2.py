@@ -59,8 +59,8 @@ else:
     out_str = inst_file[5:24] + '{nb_along:03d}_'.format(nb_along=along_size) \
               + inst_file[25:-3] + '_{}_{}.nc'.format(gmf_nrcs[0] + gmf_nrcs[-3:],
                                                       gmf_doppler[0] + gmf_doppler[-2:])
-    level1_str = 'level1_model_' + out_str
-    truth_str = 'truth_model_' + out_str
+    level1_str = 'level1_model_area_' + out_str
+    truth_str = 'truth_model_area_' + out_str
 
 level1_path = '../level1s/' + level1_str
 level1 = xr.open_dataset(level1_path).load()
@@ -83,7 +83,7 @@ if __name__ == '__main__':
     if geo_flag == 'const':
         level2_file_str = 'level2_' + out_str
     else:
-        level2_file_str = 'level2_model_' + out_str
+        level2_file_str = 'level2_model_area_' + out_str
     lmout.to_netcdf(path=level2_file_str)
 
     # # ambiguity = {'name': 'closest_truth', 'truth': truth, 'method': 'current'}
