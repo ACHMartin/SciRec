@@ -18,7 +18,7 @@ gmf={
 }
 
 across_size=int(inst_file[20:23])
-along_size=9 #100
+along_size=100
 
 ### END for inputs
 
