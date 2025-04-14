@@ -57,5 +57,5 @@ if '__main__' == __name__:
         'CDir': 0
         })
 
-    compute_geo(output_dir, my_env, size_along=salong, size_across=sacross)
+    compute_constant_geo(output_dir, my_env, size_along=salong, size_across=sacross)
 
