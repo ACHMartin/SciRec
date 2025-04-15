@@ -4,7 +4,8 @@ import xarray as xr
 import numpy as np
 import seastar
 from seastar.utils.tools import dotdict
-# import instruments 
+import instruments.create_inst_from_OHB as inst
+import geo.create_geo_ng_sca as geo
 
 def compute_truth(inst: xr.Dataset, geo: xr.Dataset, gmf: dict, write_nc=False, main_path='.'):
     '''
@@ -68,13 +69,13 @@ if '__main__' == __name__:
         'CVel': 0,
         'CDir': 0
         })
-    env = seastar.geo.create_geo_ng_sca.compute_constant_geo(my_env, size_along=salong, size_across=sacross)
+    env = geo.compute_constant_geo(my_env, size_along=salong, size_across=sacross)
     
     # create simple instrument
     ohb_inst = os.path.join(ngscat_path, 'DATA','instrument','OHB-geometry_v20250409')
     name = 'conical_configuration_1-1__1.9rpm'
     fpath = os.path.join(input_dir, name, name + '.nc')
-    si = seastar.instruments.create_inst_from_OHB.create_OHB_simple_inst(fpath, size_across=sacross)
+    si = inst.create_OHB_simple_inst(fpath, size_across=sacross)
 
     # create truth
     gmf={
