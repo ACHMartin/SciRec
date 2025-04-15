@@ -1,9 +1,9 @@
 import os
+import pathlib
 import xarray as xr
 import numpy as np
-from scipy import interpolate
 
-def create_OHB_simple_inst(fpath: str, value_along=0, size_across=11):
+def create_OHB_simple_inst(fpath: str, value_along=0, size_across=11, write_nc=False, main_path='.'):
     '''
     inst_ds: xr.Dataset with the following fields: [CentralFreq; IncidenceAngleImage (along, across, look)
     LookAzimuthImage (along, across, look), uncerty_Kp (along, across, look) uncerty_RSV (along, across, look)]
@@ -11,7 +11,7 @@ def create_OHB_simple_inst(fpath: str, value_along=0, size_across=11):
 
     inst_ds = xr.open_dataset(fpath)
     inst_ds.attrs['filepath'] = fpath
-    inst_ds.attrs['filename'] = os.path.basename(fpath)
+    inst_ds.attrs['filename'] = os.path.basename(fpath)[:-3]
 
     index_across = list(np.floor(np.linspace(0,inst_ds.across.size-1,size_across)).astype(int))
     # select only one value along, and a limited amount of values across
@@ -27,6 +27,16 @@ def create_OHB_simple_inst(fpath: str, value_along=0, size_across=11):
             simple_inst.IncidenceAngleImage.dims,
             np.full(simple_inst.IncidenceAngleImage.shape, 'VV')
         )
+
+    inst_file_str = f'inst_{across.size:03d}_{inst_ds['filename']}.nc'
+    if 'filename' in simple_inst.attrs:
+        simple_inst.attrs['history'] = simple_inst.attrs['filename']
+        simple_inst.attrs['filename'] = inst_file_str[-3]
+    if write_nc:
+        inst_path = os.path.join(main_path, 'inst')
+        pathlib.Path(inst_path).mkdir(parents=True, exist_ok=True)
+        inst_file_path = os.path.join(inst_path, inst_file_str)
+        simple_inst.to_netcdf(path=inst_file_path)
 
     return(simple_inst)
 
