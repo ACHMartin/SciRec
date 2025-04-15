@@ -15,10 +15,10 @@ def compute_constant_geo(main_path: str, dict_env: dict, size_along=100, size_ac
     along = np.arange(0, size_along)
     across = np.arange(0,size_across)
 
-    ERWSpd = dict_env.ERWSpd
-    ERWDir = dict_env.ERWDir
-    cvel = dict_env.CVel
-    cdir = dict_env.CDir
+    ERWSpd = dict_env['ERWSpd']
+    ERWDir = dict_env['ERWDir']
+    cvel = dict_env['CVel']
+    cdir = dict_env['CDir']
 
     geo = xr.Dataset(
         data_vars=dict(
