@@ -2,6 +2,7 @@ import os
 import pathlib
 import xarray as xr
 import numpy as np
+from typing import Optional
 import seastar
 # from seastar.utils.tools import dotdict
 import sys
@@ -9,7 +10,9 @@ sys.path.append(os.path.dirname(os.path.abspath(__name__))) # add parent directo
 import instruments.create_inst_from_OHB as inst
 import geo.create_geo_ng_sca as geofunc
 
-def compute_truth(inst: xr.Dataset, geo: xr.Dataset, gmf: dict, write_nc=False, main_path='.'):
+def compute_truth(inst: xr.Dataset, geo: xr.Dataset, gmf: dict, 
+                  write_nc: Optional[bool]=False, 
+                  main_path: Optional[str]='.'):
     '''
     '''
 
@@ -31,7 +34,11 @@ def compute_truth(inst: xr.Dataset, geo: xr.Dataset, gmf: dict, write_nc=False, 
 
     file_str = 'truth_' + inst.attrs['filename'] \
         + '_' + geo.attrs['filename'] + '.nc'
-    truth.attrs['filename'] = file_str[-3]    
+    truth.attrs['filename'] = file_str[:-3]
+    truth.attrs['history'] = 'inst: ' + inst.attrs['filename'] \
+                        + '; geo: ' + geo.attrs['filename'] \
+                        + '; nrcs gmf: ' + truth.attrs['gmf_nrcs'] \
+                        + '; dop gmf: ' +  truth.attrs['gmf_doppler']
     if write_nc:
         path = os.path.join(main_path, 'truth')
         pathlib.Path(path).mkdir(parents=True, exist_ok=True)
@@ -49,7 +56,8 @@ def compute_level1(truth: xr.Dataset, noise: xr.Dataset, write_nc=False, main_pa
     level1['noise_RSV'] = noise['RSV']
 
     file_str = 'level1_' + truth.attrs['filename'][6:] + '.nc'
-    level1.attrs['filename'] = file_str[-3]
+    level1.attrs['filename'] = file_str[:-3]
+    level1.attrs['history'] = 'truth: ' + truth.attrs['filename'] + '; ' + truth.attrs['history']
     if write_nc:
         path = os.path.join(main_path, 'level1')
         pathlib.Path(path).mkdir(parents=True, exist_ok=True)
