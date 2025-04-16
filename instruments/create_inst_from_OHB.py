@@ -12,7 +12,7 @@ def create_OHB_simple_inst(fpath: str, value_along=0, size_across=11, write_nc=F
     inst_ds = xr.open_dataset(fpath)
     inst_ds.attrs['filepath'] = fpath
     inst_ds.attrs['filename'] = os.path.basename(fpath)[:-3]
-    inst_ds.set_coords('CentralFreq') 
+    inst_ds = inst_ds.set_coords('CentralFreq') 
 
     index_across = list(np.floor(np.linspace(0,inst_ds.across.size-1,size_across)).astype(int))
     # select only one value along, and a limited amount of values across
