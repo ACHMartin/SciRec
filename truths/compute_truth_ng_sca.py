@@ -7,15 +7,17 @@ import seastar
 import sys
 sys.path.append(os.path.dirname(os.path.abspath(__name__))) # add parent directory
 import instruments.create_inst_from_OHB as inst
-import geo.create_geo_ng_sca as geo
+import geo.create_geo_ng_sca as geofunc
 
 def compute_truth(inst: xr.Dataset, geo: xr.Dataset, gmf: dict, write_nc=False, main_path='.'):
     '''
     '''
 
     # check across are the same size
-    if not inst.across.equals(geo.across):
+    if not inst.across.size == geo.across.size:
         raise Exception('across shall be equals between inst and geo')
+    if not inst.across.equals(geo.across):
+        geo['across'] = inst.across
 
     truth = seastar.performance.scene_generation.truth_fct(geo, inst, gmf)
 
@@ -71,7 +73,7 @@ if '__main__' == __name__:
         'CVel': 0,
         'CDir': 0
         })
-    env = geo.compute_constant_geo(my_env, size_along=salong, size_across=sacross)
+    env = geofunc.compute_constant_geo(my_env, size_along=salong, size_across=sacross)
     
     # create simple instrument
     ohb_inst_path = os.path.join(ngscat_path, 'DATA','instrument','OHB-geometry_v20250409')
