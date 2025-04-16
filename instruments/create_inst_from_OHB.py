@@ -28,7 +28,7 @@ def create_OHB_simple_inst(fpath: str, value_along=0, size_across=11, write_nc=F
             np.full(simple_inst.IncidenceAngleImage.shape, 'VV')
         )
 
-    inst_file_str = f"inst_{across.size:03d}_{inst_ds['filename']}.nc"
+    inst_file_str = f"inst_{simple_inst.across.size:03d}_{inst_ds['filename']}.nc"
     if 'filename' in simple_inst.attrs:
         simple_inst.attrs['history'] = simple_inst.attrs['filename']
         simple_inst.attrs['filename'] = inst_file_str[-3]

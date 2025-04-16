@@ -74,9 +74,9 @@ if '__main__' == __name__:
     env = geo.compute_constant_geo(my_env, size_along=salong, size_across=sacross)
     
     # create simple instrument
-    ohb_inst = os.path.join(ngscat_path, 'DATA','instrument','OHB-geometry_v20250409')
+    ohb_inst_path = os.path.join(ngscat_path, 'DATA','instrument','OHB-geometry_v20250409')
     name = 'conical_configuration_1-1__1.9rpm'
-    fpath = os.path.join(ohb_inst, name, name + '.nc')
+    fpath = os.path.join(ohb_inst_path, name, name + '.nc')
     si = inst.create_OHB_simple_inst(fpath, size_across=sacross)
 
     # create truth
