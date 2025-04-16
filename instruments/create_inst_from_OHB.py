@@ -1,9 +1,16 @@
 import os
 import pathlib
+from typing import Optional
 import xarray as xr
 import numpy as np
 
-def create_OHB_simple_inst(fpath: str, value_along=0, size_across=11, write_nc=False, main_path='.'):
+def create_OHB_simple_inst(
+        fpath: str, 
+        value_along: Optional[int]=0, 
+        size_across: Optional[int]=11,
+        write_nc: Optional[bool]=False, 
+        main_path: Optional[str]='.'
+        ):
     '''
     inst_ds: xr.Dataset with the following fields: [CentralFreq; IncidenceAngleImage (along, across, look)
     LookAzimuthImage (along, across, look), uncerty_Kp (along, across, look) uncerty_RSV (along, across, look)]

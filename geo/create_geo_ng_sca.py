@@ -1,11 +1,18 @@
 import os
 import pathlib
+from typing import Optional
 import xarray as xr
 import numpy as np
 import seastar
 
 
-def compute_constant_geo(dict_env: dict, size_along=100, size_across=11, write_nc=False, main_path='.'):
+def compute_constant_geo(
+        dict_env: dict, 
+        size_along: Optional[int]=100, 
+        size_across: Optional[int]=11, 
+        write_nc: Optional[bool]=False, 
+        main_path: Optional[str]='.'
+        ):
     '''
     dict_env being .ERWSpd, .ERWdir, .CVel, .CDir
     Earth Relative Wind Speed/Direction

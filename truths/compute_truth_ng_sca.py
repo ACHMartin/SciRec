@@ -10,9 +10,11 @@ sys.path.append(os.path.dirname(os.path.abspath(__name__))) # add parent directo
 import instruments.create_inst_from_OHB as inst
 import geo.create_geo_ng_sca as geofunc
 
-def compute_truth(inst: xr.Dataset, geo: xr.Dataset, gmf: dict, 
-                  write_nc: Optional[bool]=False, 
-                  main_path: Optional[str]='.'):
+def compute_truth(
+        inst: xr.Dataset, geo: xr.Dataset, gmf: dict, 
+        write_nc: Optional[bool]=False, 
+        main_path: Optional[str]='.'
+        ):
     '''
     '''
 
@@ -47,7 +49,11 @@ def compute_truth(inst: xr.Dataset, geo: xr.Dataset, gmf: dict,
 
     return(truth, noise)
 
-def compute_level1(truth: xr.Dataset, noise: xr.Dataset, write_nc=False, main_path='.'):
+def compute_level1(
+        truth: xr.Dataset, noise: xr.Dataset, 
+        write_nc: Optional[bool]=False, 
+        main_path: Optional[str]='.'
+        ):
     '''
     '''    
 
@@ -62,6 +68,7 @@ def compute_level1(truth: xr.Dataset, noise: xr.Dataset, write_nc=False, main_pa
         path = os.path.join(main_path, 'level1')
         pathlib.Path(path).mkdir(parents=True, exist_ok=True)
         file_path = os.path.join(path, file_str)
+        level1.attrs['filepath'] = file_path
         level1.to_netcdf(path=file_path)
     
     return(level1)
