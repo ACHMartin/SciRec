@@ -70,6 +70,7 @@ if '__main__' == __name__:
     ngscat_path = os.path.join(os.sep,'PROJETS',
                            '1474-FE_Ocean_Scatterometer_NG',
                           'REALISATION','Technique')
+    out_main_dir = os.path.join(ngscat_path, '202504_SciReC_simu')
     
     salong = 10
     sacross = 10
@@ -95,4 +96,5 @@ if '__main__' == __name__:
         'doppler': {'name': 'mouche12'},
     }
     [truth, noise] = compute_truth(si, env, gmf)
-    level1 = compute_level1(truth, noise)
+    # level1 = compute_level1(truth, noise)
+    level1 = compute_level1(truth, noise, write_nc=True, main_path=out_main_dir)
