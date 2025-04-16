@@ -5,7 +5,7 @@ import numpy as np
 import seastar
 
 
-def compute_constant_geo(main_path: str, dict_env: dict, size_along=100, size_across=11):
+def compute_constant_geo(dict_env: dict, size_along=100, size_across=11, write_nc=False, main_path='.'):
     '''
     dict_env being .ERWSpd, .ERWdir, .CVel, .CDir
     Earth Relative Wind Speed/Direction
@@ -40,11 +40,15 @@ def compute_constant_geo(main_path: str, dict_env: dict, size_along=100, size_ac
     geo = seastar.utils.tools.EarthRelativeSpeedDir2all(geo)
 
     geo_file_str = f'geo_{across.size:03d}x{along.size:03d}_'\
-                + f'W{ERWSpd:03.0f}_{ERWDir:03.0f}_C{cvel:03.1f}_{cdir:03.0f}.nc'
-    geo_path = os.path.join(main_path, 'geo')
-    pathlib.Path(geo_path).mkdir(parents=True, exist_ok=True)
-    geo_file_path = os.path.join(geo_path, geo_file_str)
-    geo.to_netcdf(path=geo_file_path)
+                    + f'W{ERWSpd:03.0f}_{ERWDir:03.0f}_C{cvel:03.1f}_{cdir:03.0f}.nc'
+    geo.attrs['filename'] = geo_file_str[:-3]
+    if write_nc:
+        geo_path = os.path.join(main_path, 'geo')
+        pathlib.Path(geo_path).mkdir(parents=True, exist_ok=True)
+        geo_file_path = os.path.join(geo_path, geo_file_str)
+        geo.to_netcdf(path=geo_file_path)
+
+    return(geo)
 
 if '__main__' == __name__:
     output_dir = '/PROJETS/1474-FE_Ocean_Scatterometer_NG/REALISATION/Technique/202504_SciReC_simu'
@@ -57,5 +61,7 @@ if '__main__' == __name__:
         'CDir': 0
         })
 
-    compute_constant_geo(output_dir, my_env, size_along=salong, size_across=sacross)
+    geo = compute_constant_geo(my_env, size_along=salong, size_across=sacross)
+    geo = compute_constant_geo(my_env, size_along=salong, size_across=sacross, 
+                         write_nc=True, main_path=output_dir)
 
