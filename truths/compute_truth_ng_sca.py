@@ -4,8 +4,8 @@ import xarray as xr
 import numpy as np
 import seastar
 from seastar.utils.tools import dotdict
-import instruments.create_inst_from_OHB as inst
-import geo.create_geo_ng_sca as geo
+import ../instruments.create_inst_from_OHB as inst
+import ../geo.create_geo_ng_sca as geo
 
 def compute_truth(inst: xr.Dataset, geo: xr.Dataset, gmf: dict, write_nc=False, main_path='.'):
     '''
