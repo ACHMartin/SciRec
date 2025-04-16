@@ -5,7 +5,7 @@ import numpy as np
 import seastar
 # from seastar.utils.tools import dotdict
 import sys
-sys.path.append('../')
+sys.path.append(os.path.dirname(os.path.abspath(__name__))) # add parent directory
 import instruments.create_inst_from_OHB as inst
 import geo.create_geo_ng_sca as geo
 
