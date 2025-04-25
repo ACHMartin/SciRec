@@ -79,8 +79,10 @@ if '__main__' == __name__:
                           'REALISATION','Technique')
     out_main_dir = os.path.join(ngscat_path, '202504_SciReC_simu')
     
-    salong = 10
-    sacross = 10
+    # salong = 10
+    # sacross = 10
+    salong = 100
+    sacross = 100
     
     # create env conditions
     my_env = dict({
